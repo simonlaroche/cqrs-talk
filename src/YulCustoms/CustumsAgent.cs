@@ -2,39 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using YulCustoms.Messaging;
 
 namespace YulCustoms
 {
-    public class CustumsAgent: IHandle<CustomsDeclaration>
+    public class FuCustumAgent: IHandle<InterviewTraveller>
     {
-        private readonly IHandle<CustomsDeclaration> next;
         private readonly string name;
-        private readonly IList<int> badTravellers = new List<int>(){4, 10,149, 212, 453};
 
-        public CustumsAgent(IHandle<CustomsDeclaration> next, string name)
+        public FuCustumAgent(string name)
         {
-            this.next = next;
             this.name = name;
         }
 
-        public void Handle(CustomsDeclaration message)
+        public void Handle(InterviewTraveller message)
+        {
+            throw new SleepingOnTheJobException(name);
+        }
+    }
+    
+    public class SleepingOnTheJobException : Exception
+    {
+        public SleepingOnTheJobException(string name):base(string.Format("Agent {0} is sleeping on the job.", name))
+        {
+            
+        }
+    }
+
+    public class CustumsAgent : IHandle<InterviewTraveller>
+    {
+        private readonly IPublish publisher;
+        private readonly string name;
+        private readonly IList<int> badTravellers = new List<int>(){4, 10,149, 212, 453};
+
+        public CustumsAgent(IPublish publisher, string name)
+        {
+            this.publisher = publisher;
+            this.name = name;
+        }
+
+        public void Handle(InterviewTraveller message)
         {
             // Ask silly questions... watch the traveller's reaction
             Thread.Sleep(2000);
-            if (badTravellers.Any(x => message.Name.Contains(x.ToString())))
+            if (badTravellers.Any(x => message.Declaration.Name.Contains(x.ToString())))
             {
-                message.SecretCode = "X-Ray";
+                message.Declaration.SecretCode = "X-Ray";
                 Console.WriteLine("Custom agent {0} marked traveller {1} for strip search",name ,message);
             }
             else
             {
-                message.SecretCode = "R13";
+                message.Declaration.SecretCode = "R13";
                 Console.WriteLine("Custom agent {0} marked traveller {1} to go through",name ,message);
-
             }
 
-            next.Handle(message);
+            publisher.Publish(new TravellerInterviewed{CorrelationId = message.CorrelationId, Declaration = message.Declaration});
             
         }
-    }
+}
 }

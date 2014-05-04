@@ -15,7 +15,6 @@ namespace YulCustoms.Console
         public void Handle(TMessage message)
         {
             System.Console.WriteLine("Handler {0} handled {1}", name, message);
-            Thread.Sleep(1000);
         }
     }
 }

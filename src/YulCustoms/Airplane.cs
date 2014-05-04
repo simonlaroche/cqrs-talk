@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Security.Cryptography;
+using YulCustoms.Messaging;
 
 namespace YulCustoms
 {
     public class Airplane
     {
         private int passengersCount;
-        private readonly IHandle<CustomsDeclaration> handlesDeclaration;
+        private readonly Dispatcher publisher;
         private Random random = new Random(DateTime.Now.Millisecond);
         private string flight;
 
-        public Airplane(string flight, int passengersCount, IHandle<CustomsDeclaration> handlesDeclaration)
+        public Airplane(string flight, int passengersCount, Dispatcher publisher)
         {
             this.passengersCount = passengersCount;
-            this.handlesDeclaration = handlesDeclaration;
+            this.publisher = publisher;
             this.flight = flight;
         }
 
@@ -31,7 +32,9 @@ namespace YulCustoms
                 declaration.Name = "name " + i;
                 i++;
 
-                handlesDeclaration.Handle(declaration);
+                var travellerArrived = new TravellerArrived {Declaration = declaration};
+
+                publisher.Publish(travellerArrived);
             }
         }
     }

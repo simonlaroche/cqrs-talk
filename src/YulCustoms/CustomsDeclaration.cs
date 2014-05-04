@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace YulCustoms
 {
-    public class CustomsDeclaration : IMessage
+    public class CustomsDeclaration
     {
         private readonly JObject jObject;
 

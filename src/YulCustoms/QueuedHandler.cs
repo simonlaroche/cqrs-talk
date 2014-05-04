@@ -3,6 +3,29 @@ using System.Threading;
 
 namespace YulCustoms
 {
+    public class ExceptionHandler<T>: IHandle<T> where T : IMessage
+    {
+        private readonly IHandle<T> next;
+
+        public ExceptionHandler(IHandle<T> next)
+        {
+            this.next = next;
+        }
+
+        public void Handle(T message)
+        {
+            try
+            {
+                next.Handle(message);
+            }
+            catch
+            {
+                //nothing to do here process will handle this
+            }
+        }
+    }
+
+
     public class QueuedHandler<T> : IHandle<T>, IAmMonitored
         where T : IMessage
     {
