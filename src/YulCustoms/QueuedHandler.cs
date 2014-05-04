@@ -14,7 +14,7 @@
         {
             this.next = next;
             queue = new ConcurrentQueue<T>();
-        }
+        }                                                                                              
 
         public void Handle(T message)
         {
