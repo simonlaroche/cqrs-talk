@@ -4,7 +4,6 @@ namespace YulCustoms
 {
     public class InterviewTimedOut : TravellerBase
     {
-
     }
 
     public class WakeMeIn : IMessage
@@ -14,28 +13,30 @@ namespace YulCustoms
             Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
         public Guid CausationId { get; set; }
-        public Guid CorrelationId { get; set; }
         public IMessage Message { get; set; }
 
         /// <summary>
-        /// Time to live in seconds
+        ///     Time to live in seconds
         /// </summary>
         public int TTL { get; set; }
+
+        public Guid Id { get; set; }
+        public Guid CorrelationId { get; set; }
     }
 
-    public class TravellerArrived: TravellerBase
+    public class TravellerArrived : TravellerBase
     {
     }
 
-    public class TravellerInterviewed:TravellerBase
+    public class TravellerInterviewed : TravellerBase
     {
     }
 
     public class TravellerBase : IMessage
     {
-        private Guid id= Guid.NewGuid();
+        private readonly Guid id = Guid.NewGuid();
+        public CustomsDeclaration Declaration { get; set; }
 
         public Guid Id
         {
@@ -43,16 +44,10 @@ namespace YulCustoms
         }
 
         public Guid CorrelationId { get; set; }
-        public CustomsDeclaration Declaration { get; set; }
     }
 
     public class InterviewTraveller : TravellerBase
     {
-    }
-
-    public class RouteTraveller : TravellerBase
-    {
-
     }
 
     public class TravellerCustomsProcessCompleted : TravellerBase
