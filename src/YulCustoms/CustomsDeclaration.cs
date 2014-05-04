@@ -11,11 +11,6 @@ namespace YulCustoms
         {
         }
 
-        public override string ToString()
-        {
-            return string.Format("Customs declaration for passenger {0} ({1}) {2} on flight {3}", Name, Citenzenship, Resident ? "R" : "V", Flight);
-        }
-
         public CustomsDeclaration(JObject jObject)
         {
             this.jObject = jObject;
@@ -45,10 +40,22 @@ namespace YulCustoms
             set { jObject["flight"] = value; }
         }
 
+        public string SecretCode
+        {
+            get { return jObject.Value<string>("secretCode"); }
+            set { jObject["secretCode"] = value; }
+        }
+
         public Guid Id
         {
             get { return jObject.Value<Guid>("id"); }
             set { jObject["id"] = value; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Customs declaration for passenger {0} ({1}) {2} on flight {3}", Name, Citenzenship,
+                Resident ? "R" : "V", Flight);
         }
     }
 }

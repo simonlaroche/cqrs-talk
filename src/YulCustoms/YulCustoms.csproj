@@ -45,10 +45,12 @@
   <ItemGroup>
     <Compile Include="Airplane.cs" />
     <Compile Include="CustomsDeclaration.cs" />
+    <Compile Include="CustumsAgent.cs" />
     <Compile Include="IHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedHandler.cs" />
     <Compile Include="ResidencyRouter.cs" />
+    <Compile Include="RoundRobinDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
