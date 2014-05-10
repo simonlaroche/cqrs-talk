@@ -12,7 +12,7 @@ namespace YulCustoms.Console
         {
             //Bootstrap process
             var residentHandler = new NullHandler("Resident Handler");
-            var visitorHandler = new NullHandler("Resident Handler");
+            var visitorHandler = new NullHandler("Visitor Handler");
 
             var residencyRouter =
                 new QueuedHandler<CustomsDeclaration>(new ResidencyRouter(residentHandler, visitorHandler));

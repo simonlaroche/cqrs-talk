@@ -24,7 +24,7 @@ namespace YulCustoms.Console
                 var declaration = new CustomsDeclaration();
                 var citizenship = random.NextDouble() < 0.7 ? "CDN" : "US";
                 declaration.Citenzenship = citizenship;
-                declaration.Resident = random.NextDouble() < 0.9;
+                declaration.Resident = random.NextDouble() < 0.8;
                 declaration.Id = Guid.NewGuid();
                 declaration.Flight = this.flight;
                 declaration.Name = "name " + i;
