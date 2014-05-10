@@ -24,7 +24,10 @@ namespace YulCustoms
             {
                 foreach (var amMonitored in subjects)
                 {
+                    var currentColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("*** Queue {0}, current count: {1}, total: {2}", amMonitored.Name, amMonitored.Count, amMonitored.Total);
+                    Console.ForegroundColor = currentColor;
                 }
                 Thread.Sleep(10000);    
             }

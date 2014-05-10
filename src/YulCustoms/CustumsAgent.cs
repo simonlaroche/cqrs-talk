@@ -17,6 +17,7 @@ namespace YulCustoms
 
         public void Handle(InterviewTraveller message)
         {
+            Thread.Sleep(1000);
             throw new SleepingOnTheJobException(name);
         }
     }
@@ -33,7 +34,7 @@ namespace YulCustoms
     {
         private readonly IPublish publisher;
         private readonly string name;
-        private readonly IList<int> badTravellers = new List<int>(){4, 10,149, 212, 453};
+        private readonly IList<int> badTravellersDb = new List<int>(){4, 10,149, 212, 453};
 
         public CustumsAgent(IPublish publisher, string name)
         {
@@ -44,8 +45,8 @@ namespace YulCustoms
         public void Handle(InterviewTraveller message)
         {
             // Ask silly questions... watch the traveller's reaction
-            Thread.Sleep(2000);
-            if (badTravellers.Any(x => message.Declaration.Name.Contains(x.ToString())))
+            Thread.Sleep(1000);
+            if (badTravellersDb.Any(x => message.Declaration.Name.Contains(x.ToString())))
             {
                 message.Declaration.SecretCode = "X-Ray";
                 Console.WriteLine("Custom agent {0} marked traveller {1} for strip search",name ,message);

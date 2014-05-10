@@ -22,7 +22,10 @@ namespace YulCustoms.Console
             var customsAgent3 = new QueuedHandler<InterviewTraveller>(new ExceptionHandler<InterviewTraveller>(new FuCustumAgent("averell")), "agent-averell");
 
             var customsAgentDispatcher =
-                new RoundRobinDispatcher<InterviewTraveller>(new[] { customsAgent1, customsAgent2, customsAgent3 });
+                new QueuedHandler<InterviewTraveller>(
+                    new RoundRobinDispatcher<InterviewTraveller>(new[] {customsAgent1, customsAgent2, customsAgent3}),
+                    "input");
+       
             dispatcher.Subscribe(customsAgentDispatcher);
 
 
@@ -30,6 +33,7 @@ namespace YulCustoms.Console
             dispatcher.Subscribe<TravellerArrived>(processManageHouse);            
             
             dispatcher.Start();
+            customsAgentDispatcher.Start();
             customsAgent1.Start();
             customsAgent2.Start();
             customsAgent3.Start();
@@ -41,9 +45,10 @@ namespace YulCustoms.Console
             monitor.Add(customsAgent1);
             monitor.Add(customsAgent2);
             monitor.Add(customsAgent3);
+            monitor.Add(customsAgentDispatcher);
             monitor.Start();
 
-            var airplane = new Airplane(flight: "DC132", passengersCount: 20, publisher: dispatcher);
+            var airplane = new Airplane(flight: "DC-132", passengersCount: 20, publisher: dispatcher);
 
             var unload = new Task(airplane.Unload);
             unload.Start();
