@@ -65,8 +65,9 @@
             }
         }
 
-
-
-
+        public string Flight {
+            get { return this.jObject.Value<string>("flight"); }
+            set { jObject["flight"] = value; } 
+        }
     }
 }
